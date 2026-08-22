@@ -83,24 +83,22 @@
           <p class="where">Florida Keys &amp; Everglades · Sentinel-2</p>
           <p>
             A five-year Sentinel-2 median composite over south Florida, classified into developed,
-            herbaceous, water, and land. Cloud is handled in two tiers — a scene-level filter throws
-            out bad acquisitions, then a per-pixel cloud-probability mask removes what survives
-            inside the good ones. Neither alone is enough over a subtropical marine area.
+            herbaceous, water, and land. Cloud is handled in two tiers — a scene-level filter, then a
+            per-pixel cloud-probability mask — because neither alone is enough over a subtropical
+            marine area.
           </p>
           <p>
-            The same scene is classified twice: <b>k-means with seven clusters</b>, which knows
-            nothing about the categories, and <b>Random Forest with four trained classes</b>.
-            Asking the unsupervised method for more groups than the scheme has is deliberate — the
-            extra clusters split water by depth, because in clear shallow water the bottom drives
-            reflectance. That is real physical structure the four-class scheme throws away.
+            The scene is classified twice: <b>k-means with seven clusters</b> and <b>Random Forest
+            with four trained classes</b>. Asking for more clusters than the scheme has is
+            deliberate — the extras split water by depth, real structure the four-class scheme
+            discards.
           </p>
           <p>
-            Validation was an 80/20 split and a confusion matrix: <b>95.8% overall accuracy, kappa
-            0.94</b>. The more useful number is underneath it. Water and developed classified
-            perfectly; the single error was land misread as herbaceous — and land had 12 training
-            points against water's 52. Difficulty concentrated in the vegetated classes and tracked
-            sample size. The headline figure also rests on 24 validation samples drawn from the same
-            polygons as the training data, so it is an upper bound rather than a measurement.
+            Validation gave <b>95.8% accuracy, kappa 0.94</b>. The useful part is underneath: water
+            and developed classified perfectly, and the only error was land read as herbaceous — the
+            class with 12 training points against water's 52. Difficulty tracked sample size. The
+            headline figure rests on 24 validation samples drawn from the same polygons as the
+            training data, so it is an upper bound.
           </p>
           <ul class="study-skills">
             <li>Supervised classification</li><li>k-means</li><li>Random Forest</li>
@@ -134,16 +132,15 @@
             where this kind of analysis usually goes wrong.
           </p>
           <p>
-            The first display range, 13000–16500 raw, works out to <b>−13 °C to +57 °C</b> — a
-            seventy-degree span for Iberia in November, so almost the whole map rendered as one
-            undifferentiated mid-ramp colour. Reading the histogram first gave 13800–15500, or
-            <b>3 °C to 37 °C</b>, which is the actual distribution. Same image, same palette; the
-            only thing that changed was looking at the data before choosing how to show it.
+            The first display range, 13000–16500 raw, works out to <b>−13 °C to +57 °C</b> — seventy
+            degrees for Iberia in November, so the map rendered as one flat colour. Reading the
+            histogram first gave 13800–15500, or <b>3 °C to 37 °C</b>. Same image, same palette; only
+            the stretch changed.
           </p>
           <p>
-            The second half is vector work: buffering the coastline 100 km offshore and intersecting
-            it with an area of interest to build a coastal zone and measure it — structurally the
-            same operation as delineating a jurisdictional band for marine spatial planning.
+            The second half buffers the coastline 100 km offshore and intersects it with an area of
+            interest to build and measure a coastal zone — structurally the same operation as
+            delineating a jurisdictional band for marine spatial planning.
           </p>
           <ul class="study-skills">
             <li>Scaled-integer data</li><li>Histogram-driven stretch</li>
@@ -169,25 +166,20 @@
           <h3>Cloud as the measurement</h3>
           <p class="where">Anchorage, Phoenix, Los Angeles · Landsat 8</p>
           <p>
-            Every other study here treats cloud as contamination. This one inverts that: a per-image
-            cloud likelihood score becomes the variable, aggregated into an annual time series for
-            three cities with very different climates.
+            Every other study here treats cloud as contamination. This one makes a per-image cloud
+            likelihood score the variable, aggregated into an annual time series for three cities.
           </p>
           <p>
-            The result is a lesson about the metric more than about the cities. The cloud-scoring
-            algorithm keys on brightness, coolness, and a snow index — so it <b>cannot separate
-            cloud from snow</b>. Anchorage carries snow much of the year and scores high partly for
-            that reason, which flatters the hypothesis it was meant to test. The scoring region also
-            defaults to the full Landsat footprint, roughly 185 km across, so these describe the
-            region containing each city rather than the city.
+            The result says more about the metric than the cities. The algorithm keys on brightness,
+            coolness, and a snow index, so it <b>cannot separate cloud from snow</b> — Anchorage
+            carries snow much of the year and scores high partly for that reason, flattering the
+            hypothesis it was meant to test.
           </p>
           <p>
-            The second half puts a number on what cloud costs you, differencing cloud-filtered
-            against unfiltered mean NDVI. The difference runs broadly negative, which is the
-            opposite of the naive expectation — and the likely reason is a <b>sampling bias, not a
-            radiometric one</b>. In a maritime subarctic climate the clear days are
-            disproportionately cold, snow-covered ones, so filtering for low cloud quietly filters
-            for winter.
+            The second half differences cloud-filtered against unfiltered mean NDVI. It runs broadly
+            negative, the opposite of the naive expectation, and the likely cause is <b>sampling
+            bias</b>: in a maritime subarctic climate the clear days are disproportionately cold and
+            snow-covered, so filtering for low cloud quietly filters for winter.
           </p>
           <ul class="study-skills">
             <li>simpleCloudScore</li><li>Time series aggregation</li>
@@ -217,23 +209,19 @@
           <p class="where">South Miami-Dade &amp; the Lower Keys · NLCD, Landsat 5 &amp; 8</p>
           <p>
             The same eighteen years read <b>categorically</b> and <b>continuously</b>. The first
-            groups NLCD classes and finds gains and losses through boolean comparison; the second
-            differences NDVI between a 2001 Landsat 5 composite and a 2019 Landsat 8 one, which
-            catches gradual thinning that never crosses a class boundary.
+            groups NLCD classes and finds gain and loss by boolean comparison; the second differences
+            NDVI between 2001 Landsat 5 and 2019 Landsat 8, catching gradual thinning that never
+            crosses a class boundary.
           </p>
           <p>
-            The first run produced a great deal of apparent development <em>loss</em>, which is
-            physically implausible in Miami. The cause was the class grouping: using deciduous
-            forest alone meant an evergreen stand registered as forest loss purely for not being
-            deciduous. Grouping all three forest classes and both agricultural classes removed most
-            of the spurious change. <b>The error was in the categories, not the data.</b>
+            The first run showed a great deal of apparent development <em>loss</em>, implausible in
+            Miami. The cause was the class grouping — using deciduous forest alone made an evergreen
+            stand register as forest loss. <b>The error was in the categories, not the data.</b>
           </p>
           <p>
-            The NDVI half carries its own caveat, which the write-up keeps rather than hides: the
-            quality mask uses Collection 1 bit positions against Collection 2 data, so it removes
-            cloud and snow but lets <b>cloud shadow</b> through — and shadow depresses NDVI, which
-            reads as vegetation loss. Landsat 5 and 8 also have different spectral response
-            functions, so their NDVI values are not strictly comparable without harmonisation.
+            The NDVI half carries its own flaw: the quality mask uses Collection 1 bit positions
+            against Collection 2 data, so it lets <b>cloud shadow</b> through, and shadow depresses
+            NDVI in a way that reads as vegetation loss.
           </p>
           <ul class="study-skills">
             <li>Change detection</li><li>Class remapping</li><li>Boolean masking</li>
@@ -264,28 +252,21 @@
           <h3>Is the city actually getting brighter?</h3>
           <p class="where">Santa Clara County, CA · VIIRS 2016 vs 2023</p>
           <p>
-            Annual VIIRS nighttime lights composites for the South Bay, differenced across seven
-            years, with water masked and the change split into gain and loss by area. The arithmetic
-            says <b>83.3% of the area brightened and 16.7% dimmed</b>.
-          </p>
-          <p>
-            That number should not be read as "the South Bay got 83% brighter," for two reasons the
-            map makes visible.
+            Annual VIIRS composites for the South Bay differenced across seven years, split into gain
+            and loss by area. The arithmetic says <b>83.3% of the area brightened and 16.7% dimmed</b>.
           </p>
           <p>
             <b>San José replaced every streetlight in the city with LED, finishing in early 2023</b> —
-            inside this exact window. The VIIRS Day/Night Band is comparatively insensitive to the
-            blue-rich output of LEDs, while the sodium lamps they replaced emitted strongly where the
-            sensor is most responsive. A converted street therefore reads dimmer even when it is lit
-            as brightly or brighter. Look at where the pink sits: it follows the street grid, exactly
-            where streetlights dominate the signal.
+            inside this window. The VIIRS Day/Night Band is comparatively insensitive to blue-rich LED
+            output, while the sodium lamps they replaced emitted strongly where the sensor is most
+            responsive, so a converted street reads dimmer even when lit as brightly. Note where the
+            pink sits: it follows the street grid.
           </p>
           <p>
-            And the percentage is a <b>sign test with no magnitude threshold</b> — a dark hillside
-            pixel drifting from 0.04 to 0.05 nW counts the same as downtown moving from 60 to 70. Much
-            of this area is unlit hills where the year-to-year difference is mostly sensor noise. The
-            defensible reading is that lit area expanded in extent, while the lit core dimmed for
-            reasons that are partly about lamps rather than activity.
+            The percentage is also a <b>sign test with no magnitude threshold</b> — a dark hillside
+            pixel drifting from 0.04 to 0.05 nW counts the same as downtown moving from 60 to 70. The
+            defensible reading is that lit area expanded while the lit core dimmed for reasons partly
+            about lamps rather than activity.
           </p>
           <ul class="study-skills">
             <li>VIIRS DNB</li><li>Image differencing</li><li>Water masking</li>

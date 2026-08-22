@@ -69,20 +69,11 @@
         <h2>The question</h2>
         <p>
           Marine carbon removal is usually argued in the abstract — whether a method works, not
-          where. Both leading approaches are strongly place-dependent, and neither travels.
-        </p>
-        <p>
-          <b>Ocean alkalinity enhancement</b> adds alkaline material to surface seawater, shifting
-          the carbonate system so the ocean draws down more atmospheric CO<sub>2</sub>. Whether that
-          works at a given site is a question of <em>physics</em>: how long the alkalinity stays in
-          contact with the atmosphere before it is diluted or subducted, and how fast gas exchange
-          proceeds while it is there. <b>Iron fertilization</b> is a question of
-          <em>biogeochemistry</em>: it does something only in water that already holds surplus
-          nutrients but lacks the iron to use them.
-        </p>
-        <p>
-          Mapping both globally on one scale turns <em>which method is better</em> into
-          <em>which method, and where</em>.
+          where. <b>Ocean alkalinity enhancement</b> adds alkaline material to surface seawater so
+          the ocean draws down more CO<sub>2</sub>; whether it works at a site is a question of
+          <em>physics</em>, namely how long that alkalinity stays in contact with the atmosphere.
+          <b>Iron fertilization</b> is a question of <em>biogeochemistry</em>: it does something only
+          where surplus nutrients sit unused for want of iron.
         </p>
 
         <h2>The headline result</h2>
@@ -91,49 +82,32 @@
           <p>
             Each index, thresholded, covers roughly a fifth of the world ocean —
             <strong>21.38%</strong> HNLC-suitable, <strong>20.58%</strong> physically suitable for
-            alkalinity enhancement. If the two were independent you would expect them to coincide
-            on about 4.4% of it. They overlap on <strong>3.39%</strong>.
+            alkalinity enhancement. Independence would predict about 4.4% overlap. They overlap on
+            <strong>3.39%</strong>.
           </p>
           <p>
-            So the two approaches are close to spatially disjoint, and mildly anti-correlated
-            rather than merely unrelated. The waters that suit iron addition — cold,
-            high-nitrate, deep-mixed Southern Ocean — are largely the waters whose deep mixed
-            layers and fast currents make them poor for alkalinity. These are not competing
-            options for the same sites. They are options for different oceans.
+            The two are close to spatially disjoint and mildly anti-correlated. The cold, high-nitrate,
+            deep-mixed Southern Ocean that suits iron is largely the water whose deep mixed layers and
+            fast currents make it poor for alkalinity. These are options for different oceans.
           </p>
         </div>
 
         <h2>Index 1 — Ocean alkalinity enhancement</h2>
         <p>
-          The controlling variable for OAE is not chemistry but <b>circulation</b>. Alkalinity only
-          draws down carbon while it remains in the surface layer exchanging gas with the
-          atmosphere; if it is diluted below detection or subducted beneath the mixed layer, the
-          uptake never happens. That makes site selection a physical-oceanography problem.
+          The controlling variable is circulation, not chemistry. Alkalinity only draws down carbon
+          while it stays in the surface layer; diluted or subducted, the uptake never happens.
+          <a href="https://doi.org/10.1038/s43247-025-02480-1" target="_blank" rel="noopener">Guo et
+          al. (2025)</a>, from Heather Kim's group at WHOI, make this explicit — releasing passive dye
+          tracers in a circulation model and scoring sites on spread, retention, gas transfer, and
+          residence time.
         </p>
         <p>
-          <a href="https://doi.org/10.1038/s43247-025-02480-1" target="_blank" rel="noopener">Guo
-          et al. (2025)</a>, from Heather Kim's group at WHOI, make this explicit: they release
-          passive dye tracers in a circulation model of the US Northeast Shelf and score sites on
-          how the dye behaves — surface spread, lateral displacement, upper-ocean retention, gas
-          transfer velocity, residence time — combining them into a Site Selection Index. Their
-          result is strongly seasonal, with summer stratification retaining alkalinity near the
-          surface and Wilkinson Basin scoring best.
-        </p>
-        <p>
-          A dye-tracer simulation cannot be run globally without a global circulation model, so
-          this index approximates that logic with <b>static proxies for the same physics</b>:
-        </p>
-        <ul>
-          <li><strong>Mixed layer depth</strong> — shallow keeps alkalinity in contact with the atmosphere; inverted</li>
-          <li><strong>Wind speed</strong> — drives gas transfer velocity; higher is better</li>
-          <li><strong>Surface current speed</strong> — fast flow disperses the plume; inverted</li>
-          <li><strong>Bathymetry</strong> — an optimal middle band, favouring shelves over both the abyss and the very shallow</li>
-          <li><strong>Distance to shipping lanes and ports</strong> — delivery is a real constraint; inverted</li>
-        </ul>
-        <p>
-          Layers come from GEBCO bathymetry, the Copernicus physical reanalysis for mixed layer
-          depth and current components, ERA5 winds via Earth Engine, and global maritime traffic
-          density.
+          That cannot run globally without a global circulation model, so this index uses static
+          proxies for the same physics: <strong>mixed layer depth</strong> (shallow better),
+          <strong>wind speed</strong> (higher drives gas transfer), <strong>surface current speed</strong>
+          (slower better), <strong>bathymetry</strong> (shelves over abyss), and
+          <strong>distance to shipping</strong>. Layers from GEBCO, the Copernicus physical reanalysis,
+          ERA5 winds, and global maritime traffic.
         </p>
 
         <figure class="fig fig-wide">
@@ -141,41 +115,28 @@
                alt="Global physical suitability index for ocean alkalinity enhancement"
                data-slot data-slot-label="OAE index">
           <figcaption>
-            <b>Figure 2.</b> Physical suitability for alkalinity enhancement. Shelves and
-            mid-latitude margins score highest; the deep-mixed, fast-flowing Southern Ocean scores
-            poorly despite being the flagship region for iron.
+            <b>Figure 2.</b> Physical suitability for alkalinity enhancement. Shelves and mid-latitude
+            margins score highest; the deep-mixed Southern Ocean scores poorly despite being the
+            flagship region for iron.
           </figcaption>
         </figure>
 
         <h2>Index 2 — Iron fertilization in HNLC waters</h2>
         <p>
-          Roughly a third of the world ocean is <strong>high-nutrient, low-chlorophyll</strong>:
-          nitrate sits unused at the surface because iron, not nitrogen, limits growth. This is not
-          a hypothesis — twelve mesoscale iron-enrichment experiments between 1993 and 2005,
-          synthesised by
-          <a href="https://doi.org/10.1126/science.1131669" target="_blank" rel="noopener">Boyd et
-          al. (2007)</a>, showed unambiguously that adding iron triggers a bloom in these waters.
-          The original observation goes back to
+          Roughly a third of the ocean is <strong>high-nutrient, low-chlorophyll</strong>: nitrate
+          sits unused because iron limits growth. Twelve mesoscale enrichment experiments synthesised
+          by <a href="https://doi.org/10.1126/science.1131669" target="_blank" rel="noopener">Boyd et
+          al. (2007)</a> showed unambiguously that adding iron triggers a bloom there, following
           <a href="https://doi.org/10.1038/331341a0" target="_blank" rel="noopener">Martin &amp;
-          Fitzwater (1988)</a> in the subarctic Pacific, and
-          <a href="https://doi.org/10.1038/ngeo1765" target="_blank" rel="noopener">Moore et al.
-          (2013)</a> map where nutrient limitation of each kind actually falls.
+          Fitzwater (1988)</a>; <a href="https://doi.org/10.1038/ngeo1765" target="_blank" rel="noopener">Moore
+          et al. (2013)</a> map where each kind of nutrient limitation falls.
         </p>
         <p>
-          What those experiments did <em>not</em> establish is durable carbon storage — most of the
-          bloom carbon was remineralised near the surface rather than exported to depth. The index
-          therefore identifies where the biological precondition holds, not where sequestration
-          would succeed. It looks for all three conditions at once:
-        </p>
-        <ul>
-          <li><strong>High nitrate</strong> — surface <code>no3</code>, higher is better</li>
-          <li><strong>Low chlorophyll</strong> — surface <code>chl</code>, inverted</li>
-          <li><strong>Low dissolved iron</strong> — surface <code>fe</code>, inverted</li>
-        </ul>
-        <p>
-          All three come from the Copernicus Marine biogeochemistry reanalysis
-          (<code>GLOBAL_MULTIYEAR_BGC_001_029</code>) at the surface layer, downloaded as NetCDF
-          and reduced from a time series to annual-mean single-band rasters before the overlay.
+          What those experiments did <em>not</em> establish is durable storage — most bloom carbon was
+          remineralised near the surface rather than exported. This index marks where the biological
+          precondition holds, not where sequestration would succeed. It combines high surface nitrate,
+          low chlorophyll, and low dissolved iron, all from the Copernicus biogeochemistry reanalysis
+          (<code>GLOBAL_MULTIYEAR_BGC_001_029</code>).
         </p>
 
         <figure class="fig fig-wide">
@@ -184,52 +145,29 @@
                data-slot data-slot-label="HNLC index">
           <figcaption>
             <b>Figure 3.</b> Iron fertilization suitability. The Southern Ocean, equatorial Pacific
-            and subarctic North Pacific carry the signal — the same three regions where the
-            enrichment experiments were run.
+            and subarctic North Pacific carry the signal — the same regions where the enrichment
+            experiments were run.
           </figcaption>
         </figure>
 
-        <h2>Why graded, not binary</h2>
-        <div class="callout">
-          <p class="kicker">Method note</p>
-          <p>
-            An obvious way to build either index is a threshold — nitrate above some cutoff,
-            chlorophyll below another — producing a suitable/unsuitable mask. That is easy to
-            compute and misleading to read: it hides how close a cell was to the cutoff, and it
-            makes the result hostage to numbers chosen somewhat arbitrarily.
-          </p>
-          <p>
-            Instead each input is rescaled to a 0–1 membership surface and combined with fuzzy
-            overlay, giving a continuous suitability gradient. A binary map can still be produced
-            afterwards by thresholding the index — but the gradient comes first, and the threshold
-            becomes an explicit, visible choice rather than a buried one.
-          </p>
-        </div>
-
-        <h2>Workflow</h2>
-        <ol class="steps">
-          <li>Download global surface fields as NetCDF from Copernicus Marine; pull wind from Earth Engine.</li>
-          <li>Load the NetCDF with <strong>Make Multidimensional Raster Layer</strong>, then reduce the time dimension to an annual mean so each variable becomes a single band.</li>
-          <li>Rescale every input with <strong>Fuzzy Membership</strong>, choosing the function to match the variable's behaviour — linear where more is simply better, inverted where less is, and a Gaussian or MSLarge shape for bathymetry, where the optimum sits in the middle.</li>
-          <li>Combine the members within each index using <strong>Fuzzy Overlay</strong>.</li>
-          <li>Symbolise both indices on an identical 0–1 ramp and lay them out together for comparison.</li>
-        </ol>
-
-        <h2>Validating the result</h2>
+        <h2>Method</h2>
         <p>
-          The iron index has a built-in sanity check: oceanographers already know where the major
-          HNLC regions are. The Southern Ocean, the equatorial Pacific, and the subarctic North
-          Pacific should light up, and the subtropical gyres — nutrient-starved and iron-replete —
-          should stay dark. A map that fails that test has a problem upstream, usually in the unit
-          handling or the time reduction, and it is worth catching before any interpretation.
+          Each input is rescaled to a 0–1 membership surface with <strong>Fuzzy Membership</strong> —
+          linear where more is better, inverted where less is, Gaussian for bathymetry where the
+          optimum sits in the middle — then combined with <strong>Fuzzy Overlay</strong>. Building
+          graded surfaces rather than threshold masks keeps visible how close each cell came to the
+          cutoff; a binary map can still be produced afterwards, but the threshold stays an explicit
+          choice.
         </p>
-
-        <h2>A note on what this map is and is not</h2>
         <p>
-          These are <strong>physical and biogeochemical</strong> suitability surfaces. They say
-          nothing about whether either intervention should happen. Ecological consequence,
-          governance, monitoring and verification, and the question of who decides are all outside
-          the frame — and all of them would narrow the bright areas on these maps considerably.
+          Both indices are annual means for a single year, so seasonality is averaged out — a real
+          limitation given that the Kim result is strongly seasonal. The HNLC index has a built-in
+          sanity check: the Southern Ocean, equatorial Pacific, and subarctic North Pacific should
+          light up while the subtropical gyres stay dark.
+        </p>
+        <p>
+          These are physical and biogeochemical surfaces only. Ecological consequence, governance, and
+          monitoring are outside the frame, and all would narrow the bright areas considerably.
         </p>
 
       </div>

@@ -68,91 +68,51 @@
 
         <h2>The question</h2>
         <p>
-          California is a fire-shaped landscape. Chaparral, oak woodland, and Sierra conifer
-          forest all evolved with frequent, mostly low- to moderate-intensity burning — much of it
-          set deliberately by Indigenous communities over millennia to manage fuel and maintain
-          ecosystem structure. A century of aggressive suppression interrupted that rhythm. Fuels
-          accumulated just as the climate warmed and dried and the wildland-urban interface
-          expanded into them.
-        </p>
-        <p>
-          The usual response is a map of where fire has occurred. That map is easy to make and
-          nearly useless for planning, because it treats a burn from the start of the record and
-          a burn from last season as the same fact. The question worth asking is directional:
-          which parts of the state are on a trajectory, and which are not?
+          A century of fire suppression let fuels accumulate just as the climate warmed and the
+          wildland-urban interface expanded into them. The usual response is a map of where fire has
+          occurred, which treats a burn from the start of the record and one from last season as the
+          same fact. The question worth asking is directional: which parts of the state are on a
+          trajectory?
         </p>
 
-        <h2>Why a space-time cube</h2>
-        <div class="callout">
-          <p class="kicker">Method note</p>
-          <p>
-            A conventional hot spot analysis collapses time. It answers "where is fire
-            clustered" and cannot distinguish a place with a long, steady history from one that
-            has caught fire only recently but is accelerating.
-          </p>
-          <p>
-            A <strong>space-time cube</strong> keeps both axes. Fire events are aggregated into
-            bins that are simultaneously spatial and temporal — a grid of columns, each column
-            sliced into time steps. Running hot spot statistics through that structure yields not
-            one answer but a <em>classification of trajectories</em>.
-          </p>
-        </div>
-
+        <h2>Method</h2>
         <p>
-          That classification is what the map's colours encode. The categories that matter most
-          for planning are the ones that separate direction from magnitude:
+          A conventional hot spot analysis collapses time, so it cannot separate a place with a long
+          steady history from one that has caught fire only recently but is accelerating. A
+          <strong>space-time cube</strong> keeps both axes — fire events binned into cells that are
+          simultaneously spatial and temporal — and yields a classification of trajectories rather
+          than a single intensity value:
         </p>
         <ul>
-          <li><strong>New</strong> — the most recent time step is a hot spot; earlier ones were not</li>
-          <li><strong>Consecutive / intensifying</strong> — an unbroken recent run of hot spots, with clustering growing stronger over time</li>
-          <li><strong>Persistent</strong> — hot throughout, with no meaningful trend either way</li>
-          <li><strong>Diminishing / historical</strong> — significant clustering in the past that has weakened or lapsed</li>
+          <li><strong>New</strong> — the most recent step is a hot spot; earlier ones were not</li>
+          <li><strong>Consecutive / intensifying</strong> — an unbroken recent run, clustering growing stronger</li>
+          <li><strong>Persistent</strong> — hot throughout, no trend either way</li>
+          <li><strong>Diminishing / historical</strong> — past clustering that has since weakened</li>
         </ul>
         <p>
-          A "historical" county and an "intensifying" county can have identical total burned area.
-          They call for entirely different responses, and a map that only shows accumulated
-          footprint cannot tell them apart.
+          A historical county and an intensifying one can have identical total burned area. They call
+          for different responses, and an accumulated-footprint map cannot tell them apart.
         </p>
 
         <h2>Reading the layout</h2>
         <ol class="steps">
-          <li>The <strong>main map</strong> carries the hot spot classification across the state, drawn on a dark basemap so the categorical colours carry the signal rather than competing with terrain.</li>
-          <li>The <strong>county bar chart</strong> summarises hot spot hazard counts per county, turning a continuous surface into something rankable — the northern counties of Siskiyou, Trinity, and Shasta stand out, alongside Monterey, Mendocino, and Riverside.</li>
-          <li>The <strong>3D inset</strong> takes Monterey County and shows the cube itself: columns rising through time, each block coloured by its state in that time step, so a single county's trajectory is legible as a shape.</li>
+          <li>The main map carries the hot spot classification statewide, on a dark basemap so the categorical colours stay separable.</li>
+          <li>The county chart summarises hazard counts per county — Siskiyou, Trinity, and Shasta stand out, alongside Monterey, Mendocino, and Riverside.</li>
+          <li>The 3D inset shows the cube itself for Monterey County: columns rising through time, each block coloured by its state in that step.</li>
         </ol>
 
-        <h2>Cartography on a dark ground</h2>
+        <h2>What it supports</h2>
         <p>
-          The dark basemap is a functional choice, not a stylistic one. The hot spot output is
-          <em>categorical</em> — the colours mean distinct classes, not positions on a ramp — and
-          categorical schemes need high separation to stay readable. Against a pale terrain
-          basemap the lighter classes wash out and the reader starts inferring an ordering that
-          the data does not support.
+          Treating intensifying, persistent, and new hot spots together as "high risk" makes the
+          output usable elsewhere — it is what the
+          <a href="wind-farm-siting.html">wind siting project</a> intersects against turbine
+          locations.
         </p>
         <p>
-          The grid cells also keep a soft outer glow, which does real work at small sizes: it
-          holds isolated single cells visible against the dark ground instead of letting them
-          disappear, so sparse emerging clusters read as clearly as dense ones.
-        </p>
-
-        <h2>Putting the classification to work</h2>
-        <p>
-          The categories are useful precisely because they can be intersected with something else.
-          Treating intensifying, persistent, and new hot spots together as "high risk" and
-          buffering assets against them turns a descriptive map into an exposure count — which is
-          how this analysis feeds the
-          <a href="wind-farm-siting.html">wind siting project</a>, where it answers how much of
-          California's installed turbine fleet sits within five miles of a fire regime that is
-          active or worsening.
-        </p>
-
-        <h2>What this map does not say</h2>
-        <p>
-          Emerging hot spot categories describe the <strong>statistical behaviour of the record</strong>,
-          not causation. A county classified as intensifying is not thereby explained — the
-          driver could be fuel accumulation, climate, ignition sources, changes in detection and
-          reporting, or a shifting wildland-urban boundary. The analysis narrows where to look.
-          It does not substitute for looking.
+          The categories describe the statistical behaviour of the record, not causation. An
+          intensifying county is not thereby explained: fuel, climate, ignition sources, reporting
+          changes, and a shifting wildland-urban boundary all remain candidates. The analysis narrows
+          where to look.
         </p>
 
       </div>

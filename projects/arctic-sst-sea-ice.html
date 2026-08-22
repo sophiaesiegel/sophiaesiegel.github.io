@@ -77,113 +77,35 @@
 
         <h2>The question</h2>
         <p>
-          Arctic sea ice loss is one of the most widely reproduced climate graphics there is, and
-          usually it appears alone — a line going down. That framing leaves out the ocean underneath.
-          This project puts the two records in the same frame: the temperature of the surface water
-          and the ice sitting on it, over the same period, in the same projection.
+          Arctic sea ice loss is usually shown alone — a line going down. This puts the ice and the
+          ocean underneath it in one frame, over the same period and the same projection.
         </p>
 
         <h2>Data</h2>
         <ul>
-          <li>
-            <strong>Sea surface temperature</strong> — NOAA Optimum Interpolation SST v2.1
-            (<code>NOAA/CDR/OISST/V2_1</code>) via Google Earth Engine. The <code>sst</code> band is
-            stored as scaled integers and needs multiplying by 0.01 to reach degrees Celsius.
-            Reduced to annual means and exported as a multiband GeoTIFF with one band per year,
-            reprojected to <strong>EPSG:3413</strong>, the polar stereographic projection standard
-            for Arctic work.
-          </li>
-          <li>
-            <strong>Sea ice extent</strong> — a monthly polygon feature class carrying year,
-            month, area, and extent fields, joined by the supporting cartographic layers that
-            give a polar map its bearings: the Arctic Circle, world countries, a graticule, and
-            northern marine regions.
-          </li>
+          <li><strong>Sea surface temperature</strong> — NOAA OISST v2.1 (<code>NOAA/CDR/OISST/V2_1</code>) via Earth Engine, reduced to annual means and reprojected to EPSG:3413.</li>
+          <li><strong>Sea ice extent</strong> — monthly polygon feature class carrying year, month, area, and extent.</li>
         </ul>
 
-        <h2>Cartography</h2>
-        <p>
-          The layout runs on a black ground with the globe lit from behind, which is not a
-          stylistic flourish so much as the only way to get two quantitative surfaces into one
-          frame. Sea ice extent is drawn on a white-to-blue ramp and SST on a blue-to-orange
-          diverging ramp; on a pale basemap the ice would vanish into the land and the cool end
-          of the SST ramp would fight the ice for the same range. Darkness separates them.
-        </p>
-        <p>
-          <strong>Blend modes</strong> let the ice sit over the temperature field without a hard
-          outline, so the two layers read as one surface rather than a stack. The graticule and
-          the Arctic Circle — the red ring — are held deliberately thin: at the pole the meridians
-          converge into a dense knot exactly where the subject matter is, and anything heavier
-          would obscure it.
-        </p>
-
-        <h2>Choosing the right number for ice</h2>
-        <div class="callout">
-          <p class="kicker">Analysis note</p>
-          <p>
-            Annual <em>mean</em> ice extent is the wrong summary for a melt story. It blends the
-            winter maximum back in and damps out exactly the signal of interest. The
-            <strong>annual minimum</strong> — the September low — is what actually tracks long-term
-            loss, so that is the value plotted.
-          </p>
-          <p>
-            Taking a minimum across months has a trap in it: any year with incomplete monthly
-            coverage returns a spuriously low value that looks like a record melt. Filtering to
-            years with a full twelve months of records first removes the partial years at either
-            end of the series and keeps the trend honest.
-          </p>
-        </div>
-
-        <h2>Building the layout</h2>
+        <h2>Method</h2>
         <ol class="steps">
-          <li>Compute annual mean SST in Earth Engine and export as a multiband GeoTIFF, band per year.</li>
-          <li>Bring the raster into ArcGIS Pro and set up a <strong>Global Scene</strong> centred on the pole, so the Arctic reads as a cap on a sphere rather than a distorted rectangle — which is the honest way to show a region that every flat projection wrecks.</li>
-          <li>Summarise the ice feature class to annual minimum extent, dropping partial years.</li>
-          <li>Chart both series beneath the scene and assemble the layout.</li>
+          <li>Compute annual mean SST in Earth Engine; export as a multiband GeoTIFF, one band per year.</li>
+          <li>Build a polar Global Scene in ArcGIS Pro, so the Arctic reads as a cap on a sphere rather than a distorted rectangle.</li>
+          <li>Summarise ice to <strong>annual minimum</strong> extent — the September low is what tracks long-term loss, while an annual mean blends the winter maximum back in and damps the signal. Years without full monthly coverage are dropped, since an incomplete year returns a spuriously low minimum.</li>
+          <li>Chart both series beneath the scene on independent left and right axes.</li>
         </ol>
 
-        <h2>What the chart shows</h2>
+        <h2>What it shows</h2>
         <p>
-          Across 2001 to 2025 the minimum extent bars fall from roughly 6.8 to around 4.5 million
-          km², with the well-known 2012 collapse showing as the deepest single trough in the
-          record. The mean SST line rises across the same window by a few tenths of a degree.
+          From 2001 to 2025 minimum extent falls from roughly 6.8 to about 4.5 million km², with the
+          2012 collapse as the deepest trough. Mean SST rises a few tenths of a degree over the same
+          window.
         </p>
         <p>
-          The two series are deliberately <em>not</em> presented as a causal pair. Half a degree
-          of globally averaged surface warming does not mechanically produce several million
-          square kilometres of ice loss; the relationship runs through albedo feedback, ocean heat
-          transport, and atmospheric circulation, none of which appear on this map. What the
-          layout supports is the weaker and defensible claim — that the two records move together
-          over the same period.
-        </p>
-
-        <h2>Two units, one chart</h2>
-        <p>
-          Ice extent in millions of square kilometres and SST in degrees Celsius share no sensible
-          axis, and putting them on one flattens whichever series has the narrower range — here
-          that would be SST, whose entire signal spans a few tenths of a degree and would collapse
-          to a flat line beside bars running from zero to seven.
-        </p>
-        <p>
-          The chart solves it with <strong>independent left and right axes</strong>: extent on the
-          left driving the bars, mean SST on the right driving the line, each scaled to its own
-          range over a shared timeline. The alternative — normalising both to a common index — was
-          available but discards the real units, and the units are worth keeping when a reader
-          wants to know that the minimum is around four and a half million km² rather than simply
-          "low".
-        </p>
-        <p>
-          The cost of a dual axis is that it can imply a relationship the data does not establish,
-          since the apparent convergence of two lines depends entirely on how each axis was scaled.
-          That is a real hazard here, which is why the causal claim is left explicitly unmade above.
-        </p>
-
-        <h2>Reusable pattern</h2>
-        <p>
-          This project established the Earth Engine → ArcGIS Pro pipeline that the ocean carbon
-          work now reuses: reduce a global archive to annual means in the cloud where the data
-          already lives, export a single multiband raster rather than a folder of files, and do the
-          cartography locally where the layout tools are.
+          The two are not presented as a causal pair. Half a degree of averaged warming does not
+          mechanically produce millions of km² of ice loss — that link runs through albedo feedback
+          and ocean heat transport, neither of which appears here. The defensible claim is that the
+          two records move together.
         </p>
 
       </div>

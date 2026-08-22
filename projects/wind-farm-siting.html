@@ -79,132 +79,54 @@
 
         <h2>The question</h2>
         <p>
-          If you have driven east on the I-10 you have passed through a forest of turbines. The
-          intuitive explanation for why they are <em>there</em> is that it is windy — but that is
-          incomplete, and in places wrong. Turbines appear on ridgelines as often as on flats.
-          Consistency of wind may matter more than peak speed. And a site with an excellent wind
-          resource is worthless if connecting it means building thirty miles of new high-voltage
-          line.
+          Wind alone does not explain where turbines get built. Terrain matters, consistency may
+          matter more than peak speed, and a site with an excellent resource is worthless if
+          connecting it means thirty miles of new high-voltage line.
         </p>
 
         <h2>Working backwards from what exists</h2>
         <p>
-          Rather than guessing at thresholds, the analysis starts from the installed fleet. Every
-          existing California turbine becomes a sample point, and each environmental layer is read
-          off at those locations — turning the built fleet into an empirical record of what
-          developers have actually judged acceptable. The criteria fall out of the distributions
-          instead of being asserted up front.
+          Rather than asserting thresholds, the analysis reads criteria off the installed fleet.
+          <strong>Extract Values to Points</strong> pulls elevation, slope, and Global Wind Atlas
+          wind speed onto every existing California turbine; <strong>Near</strong> measures the
+          distance from each to the closest transmission line above 115 kV. The resulting histograms
+          are the output — they show what interconnection distance and what terrain the industry has
+          actually accepted.
         </p>
         <p>
-          <strong>Extract Values to Points</strong> pulls the raster layers onto the turbines:
-        </p>
-        <ul>
-          <li><strong>Elevation</strong> — from the California DEM</li>
-          <li><strong>Slope</strong> — derived from that DEM, in degrees</li>
-          <li><strong>Wind speed</strong> — Global Wind Atlas, developed by the World Bank and DTU Energy</li>
-          <li><strong>Nighttime lights</strong> — VIIRS, a proxy for where load and infrastructure already sit</li>
-        </ul>
-        <p>
-          Grid access needs a different tool, because it is a distance rather than a value at a
-          location. The <strong>Near</strong> function measures each turbine to the closest
-          transmission line carrying more than 115 kV, written into a
-          <code>dist_power_lines_miles</code> field.
-        </p>
-        <p>
-          Each variable then goes to a histogram, and the histograms are the actual output of this
-          stage. A mean distance to high-voltage line tells you what interconnection distance the
-          industry has tolerated in practice; a slope distribution tells you how steep is too
-          steep. Splitting the elevation histogram by year adds a second question on top —
-          whether the elevations being built on have drifted over time as the easy sites were
-          taken.
+          The 115 kV filter is the constraint, not a refinement. Turbines generate at 690 V to
+          34.5 kV, far too low to move power any distance, so proximity to line that can carry the
+          output is what separates a viable project from an uneconomic one.
         </p>
 
-        <div class="callout">
-          <p class="kicker">Why voltage is the filter</p>
-          <p>
-            Turbines generate at roughly 690 V to 34.5 kV — far too low to move power any
-            distance. A step-up transformer at the farm lifts it to transmission levels of 69 kV
-            to 500 kV before it travels to a substation and is stepped back down for delivery.
-          </p>
-          <p>
-            So proximity to <em>high-voltage</em> line is not a refinement, it is the constraint.
-            Filtering transmission to above 115 kV rather than treating all lines alike is the
-            difference between a model that reflects interconnection economics and one that
-            merely looks like it does.
-          </p>
-        </div>
-
-        <h2>3D as analysis, not decoration</h2>
+        <h2>The 3D scene</h2>
         <p>
-          The scene renders wind speed as a continuous surface from 0 to about 12 m/s, with
-          turbines as 3D symbols and the transmission network extruded so that
-          <strong>line height encodes voltage</strong> — the backbone standing visibly above the
-          lower-voltage network.
-        </p>
-        <p>
-          That encoding is doing real work. On a flat map, voltage becomes a colour or a line
-          weight, competing with terrain, wind, and everything else for the reader's attention.
-          Given height, the transmission hierarchy becomes structural: the question a siting
-          analyst actually asks — is this location near grid that can <em>take</em> the
-          output — resolves visually, in one look, instead of requiring a legend lookup.
-        </p>
-        <p>
-          The wind surface is symbolised on a high-contrast ramp rather than a naturalistic one,
-          for the same reason. The point of the base layer is to make gradients in the resource
-          legible underneath the infrastructure, not to look like terrain.
+          Wind speed renders as a continuous surface from 0 to about 12 m/s, with transmission
+          extruded so <strong>height encodes voltage</strong>. On a flat map voltage becomes a colour
+          competing with everything else; given height, the question of whether a site sits near grid
+          that can take its output resolves in one look.
         </p>
 
-        <h2>Workflow</h2>
+        <h2>Scaling to a siting model</h2>
         <ol class="steps">
-          <li>Assemble California border, elevation, transmission lines, and turbine points; reproject to NAD 1983 (2011) California Teale Albers.</li>
-          <li>Filter transmission to lines above 115 kV.</li>
-          <li>Add Global Wind Atlas wind speed and VIIRS nighttime lights, clipping the global rasters to the California outline at the map level rather than by raster extraction — these datasets are too large and fine-grained to clip conventionally.</li>
-          <li>Derive slope from the DEM, then <strong>Extract Values to Points</strong> for elevation, slope, and wind speed at every turbine.</li>
-          <li>Run <strong>Near</strong> to get each turbine's distance to the nearest &gt;115 kV line, and plot the distributions.</li>
-          <li>Build the scene: wind speed as the base surface with vertical exaggeration on the ground, turbines as 3D symbols, transmission extruded by voltage.</li>
+          <li>Tessellate the state into equal cells so every candidate location is comparable.</li>
+          <li>Remove what is disqualified outright — built-up areas, protected land.</li>
+          <li>Score the remainder on the variables the histograms flagged: wind, slope, elevation, distance to high-voltage line.</li>
+          <li>Rescale each to 0–1 and weight them, since metres, degrees, m/s, and miles cannot be combined directly.</li>
+          <li>Combine into one suitability surface — the same fuzzy-overlay logic as the <a href="ocean-cdr-suitability.html">ocean carbon removal</a> work.</li>
         </ol>
 
-        <h2>From description to a siting model</h2>
+        <h2>Fire exposure</h2>
         <p>
-          Everything above characterises sites that already exist. Turning that into a search for
-          <em>new</em> ones needs a spatial frame, because suitability has to be evaluated
-          somewhere rather than at points that are already built on.
-        </p>
-        <ol class="steps">
-          <li>Divide the state into a <strong>tessellation</strong> — equal hexagons or squares — so every candidate location is a comparable unit.</li>
-          <li>Remove what is disqualified outright: built-up areas, protected land, anything unavailable regardless of resource.</li>
-          <li>Score the surviving cells on the variables the histograms identified as mattering — wind speed, slope, elevation, distance to high-voltage line.</li>
-          <li>Rescale each to a common 0–1 range and weight them by importance, since raw metres, degrees, m/s, and miles cannot be combined directly.</li>
-          <li>Combine into a single suitability surface.</li>
-        </ol>
-        <p>
-          That final step is the same fuzzy-overlay logic used in the
-          <a href="ocean-cdr-suitability.html">ocean carbon removal</a> work — different domain,
-          identical problem: several incommensurable variables that have to be argued onto one
-          scale before they can be combined.
-        </p>
-
-        <h2>The fire question</h2>
-        <p>
-          Wind corridors and fire country overlap in California, and transmission infrastructure
-          is both vulnerable to wildfire and occasionally a cause of it. Buffering the turbines by
-          five miles and intersecting that with the high-risk classes from the
-          <a href="california-wildfire.html">emerging hot spot analysis</a> — intensifying,
-          persistent, and new — counts how much of the installed fleet sits inside a fire regime
-          that is active or getting worse.
+          California's wind corridors overlap its fire country. Buffering turbines by five miles and
+          intersecting with the high-risk classes from the
+          <a href="california-wildfire.html">emerging hot spot analysis</a> counts how much of the
+          fleet sits inside a fire regime that is active or worsening — a hazard trajectory the
+          resource assessment never looks at.
         </p>
         <p>
-          It reframes the siting question. A location can score well on wind, terrain, and grid
-          access and still be a poor bet over an asset life measured in decades, because the
-          hazard around it is on a trajectory the resource assessment never looks at.
-        </p>
-
-        <h2>What the model leaves out</h2>
-        <p>
-          Land cover, land ownership, distance to roads and urban areas, and proximity to
-          protected areas all belong in a real siting decision and are not in this one. Naming
-          those absences is part of the deliverable: a suitability model that does not declare its
-          own boundaries invites being read as more authoritative than it is.
+          Land cover, ownership, road access, and protected-area proximity all belong in a real
+          siting decision and are not in this one.
         </p>
 
       </div>
