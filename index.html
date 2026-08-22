@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sophia Siegel — GIS &amp; Ocean Climate Portfolio</title>
+<meta name="description" content="Geospatial analysis and cartography on ocean, climate, and hazard questions — ArcGIS Pro and Google Earth Engine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Sophia Siegel <span class="brand-sub">GIS &amp; ocean climate</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="index.html#projects" aria-current="page">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="hero-media" aria-hidden="true">
+      <img src="assets/img/cover.jpg" alt="">
+    </div>
+    <div class="wrap hero-inner">
+      <h1 class="name">Sophia Siegel</h1>
+      <p class="credential">
+        BS (2025) and MS (2026) in
+        <a href="https://earthsystems.stanford.edu/" target="_blank" rel="noopener">Earth Systems</a>,
+        Stanford Doerr School of Sustainability. Undergraduate focus in biogeochemistry;
+        master's in remote sensing and spatial data science.
+      </p>
+      <a class="btn" href="#projects">See the work</a>
+      <div class="toolstrip">
+        <span>ArcGIS Pro</span><span>QGIS</span><span>Google Earth Engine</span>
+        <span>JavaScript</span><span>Python</span><span>R</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Selected work</p>
+          <h2>GIS portfolio</h2>
+        </div>
+        <p>
+          Each project below pairs a final cartographic layout with a short account of the data
+          and the analytical workflow behind it.
+        </p>
+      </div>
+
+      <div class="filters">
+        <div class="search-row">
+          <input class="search" type="search" data-search
+                 placeholder="Search projects, methods, or datasets…" aria-label="Search projects">
+          <span class="result-count" data-count>5 projects</span>
+        </div>
+        <div class="tag-row" role="group" aria-label="Filter projects by theme">
+          <button class="chip" data-filter="all" aria-pressed="true">All</button>
+          <button class="chip" data-filter="ocean" aria-pressed="false">Ocean</button>
+          <button class="chip" data-filter="climate" aria-pressed="false">Climate</button>
+          <button class="chip" data-filter="hazards" aria-pressed="false">Hazards</button>
+          <button class="chip" data-filter="suitability" aria-pressed="false">Suitability</button>
+          <button class="chip" data-filter="remote-sensing" aria-pressed="false">Remote sensing</button>
+          <button class="chip" data-filter="3d" aria-pressed="false">3D</button>
+        </div>
+      </div>
+
+      <div class="card-grid" data-project-grid>
+
+        <article class="card" data-tags="ocean,climate,suitability,remote-sensing">
+          <div class="card-thumb">
+            <img src="assets/img/ocean-cdr-thumb.png" alt="Global ocean carbon-removal suitability index"
+                 data-slot data-slot-label="Thumbnail">
+          </div>
+          <div class="card-body">
+            <h3><a href="projects/ocean-cdr-suitability.html">Where Could the Ocean Take Up More Carbon?</a></h3>
+            <p class="card-desc">
+              Two global suitability indices for marine carbon removal — iron fertilization and
+              ocean alkalinity enhancement — mapped on a common scale. Each covers about a fifth
+              of the ocean. They overlap on 3.39% of it.
+            </p>
+            <div class="card-tags">
+              <span class="tag">ArcGIS Pro</span><span class="tag">Earth Engine</span>
+              <span class="tag">Copernicus</span><span class="tag">Fuzzy overlay</span>
+            </div>
+            <a class="card-cta" href="projects/ocean-cdr-suitability.html">Read the project</a>
+          </div>
+        </article>
+
+        <article class="card" data-tags="ocean,climate,remote-sensing">
+          <div class="card-thumb">
+            <img src="assets/img/arctic-sst-thumb.png" alt="Arctic sea ice decline with sea surface temperature"
+                 data-slot data-slot-label="Thumbnail">
+          </div>
+          <div class="card-body">
+            <h3><a href="projects/arctic-sst-sea-ice.html">Arctic Sea Ice Decline with SST</a></h3>
+            <p class="card-desc">
+              A quarter century of September sea ice minima set against mean sea surface
+              temperature, drawn as a dark polar globe with the two records charted beneath it.
+            </p>
+            <div class="card-tags">
+              <span class="tag">Earth Engine</span><span class="tag">NOAA OISST</span>
+              <span class="tag">Global scene</span><span class="tag">Time series</span>
+            </div>
+            <a class="card-cta" href="projects/arctic-sst-sea-ice.html">Read the project</a>
+          </div>
+        </article>
+
+        <article class="card" data-tags="hazards,climate,3d">
+          <div class="card-thumb">
+            <img src="assets/img/wildfire-thumb.png" alt="California wildfire emerging hot spot analysis"
+                 data-slot data-slot-label="Thumbnail">
+          </div>
+          <div class="card-body">
+            <h3><a href="projects/california-wildfire.html">Where California's Fire Risk Is Going</a></h3>
+            <p class="card-desc">
+              An emerging hot spot analysis of California wildfire, built on a space-time cube —
+              separating places where fire is intensifying from places that burned early and
+              went quiet.
+            </p>
+            <div class="card-tags">
+              <span class="tag">ArcGIS Pro</span><span class="tag">Space-time cube</span>
+              <span class="tag">Emerging hot spots</span><span class="tag">3D</span>
+            </div>
+            <a class="card-cta" href="projects/california-wildfire.html">Read the project</a>
+          </div>
+        </article>
+
+        <article class="card" data-tags="suitability,climate,3d">
+          <div class="card-thumb">
+            <img src="assets/img/wind-siting-thumb.png" alt="3D scene of wind turbines and transmission lines"
+                 data-slot data-slot-label="Thumbnail">
+          </div>
+          <div class="card-body">
+            <h3><a href="projects/wind-farm-siting.html">Siting Wind in California</a></h3>
+            <p class="card-desc">
+              Reading siting criteria off California's existing turbines — wind, slope, elevation,
+              distance to high-voltage line — then building those into a search for new sites,
+              rendered as a 3D scene of the resource and the grid.
+            </p>
+            <div class="card-tags">
+              <span class="tag">ArcGIS Pro</span><span class="tag">3D scene</span>
+              <span class="tag">Global Wind Atlas</span><span class="tag">Site suitability</span>
+            </div>
+            <a class="card-cta" href="projects/wind-farm-siting.html">Read the project</a>
+          </div>
+        </article>
+
+        <article class="card" data-tags="remote-sensing,climate,hazards">
+          <div class="card-thumb">
+            <img src="assets/img/gee-keys-classification.png" alt="Land cover classification of south Florida in Google Earth Engine"
+                 data-slot data-slot-label="Thumbnail">
+          </div>
+          <div class="card-body">
+            <h3><a href="projects/earth-engine-method-studies.html">Earth Engine Method Studies</a></h3>
+            <p class="card-desc">
+              Five short studies in Google Earth Engine — classification and accuracy, thermal
+              archives, cloud as a measurement, change detection two ways, and whether a city is
+              really getting brighter. Scripts on GitHub.
+            </p>
+            <div class="card-tags">
+              <span class="tag">Earth Engine</span><span class="tag">JavaScript</span>
+              <span class="tag">Sentinel-2</span><span class="tag">Landsat</span>
+            </div>
+            <a class="card-cta" href="projects/earth-engine-method-studies.html">Read the project</a>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="empty-state" data-empty>No projects match that search yet — try clearing the filters.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Get in touch</p>
+          <h2>Contact</h2>
+        </div>
+        <p>Happy to talk about ocean carbon, cartography, or collaborating on geospatial work.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <p class="kicker">Email</p>
+          <a href="mailto:sophiaelise02@gmail.com">sophiaelise02@gmail.com</a>
+          <p>Best way to reach me.</p>
+        </div>
+        <div class="contact-card">
+          <p class="kicker">LinkedIn</p>
+          <a href="https://www.linkedin.com/in/sophia-siegel-a3b760270/" target="_blank" rel="noopener">sophia-siegel</a>
+          <p>Background and experience.</p>
+        </div>
+        <div class="contact-card">
+          <p class="kicker">GitHub</p>
+          <a href="https://github.com/sophiaesiegel" target="_blank" rel="noopener">sophiaesiegel</a>
+          <p>Code behind the analyses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Sophia Siegel</span>
+    <div class="footer-links">
+      <a href="index.html#projects">Projects</a>
+      <a href="about.html">About</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
