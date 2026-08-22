@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where California's Fire Risk Is Going — Sophia Siegel</title>
+<meta name="description" content="An emerging hot spot analysis of California wildfire built on a space-time cube, separating intensifying fire regimes from historical ones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Sophia Siegel <span class="brand-sub">GIS &amp; ocean climate</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html#projects" aria-current="page">Projects</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-inner compact">
+      <a class="back-link" href="../index.html#projects">All projects</a>
+      <span class="eyebrow">Hazards · Space-time analysis</span>
+      <h1>Where California's Fire Risk Is Going</h1>
+      <p class="lede">
+        Not where California has burned — where its fire regime is <em>changing</em>. An emerging
+        hot spot analysis built on a space-time cube, separating places that are intensifying
+        from places that burned early in the record and have since gone quiet.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Analysis, cartography</dd></div>
+        <div><dt>Tools</dt><dd>ArcGIS Pro, Space Time Cube</dd></div>
+        <div><dt>Extent</dt><dd>California, Teale Albers</dd></div>
+        <div><dt>Unit</dt><dd>Space-time bins + county summary</dd></div>
+      </dl>
+
+      <figure class="fig">
+        <img src="../assets/img/wildfire-layout.png"
+             alt="Dark-themed map of California showing emerging wildfire hot spot categories, a county bar chart, and a 3D space-time cube inset for Monterey County"
+             data-slot data-slot-label="Final layout">
+        <figcaption>
+          <b>Figure 1.</b> Emerging hot spot categories across California, with hazard counts by
+          county and a 3D space-time cube inset for Monterey County.
+        </figcaption>
+      </figure>
+
+      <div class="prose">
+
+        <h2>The question</h2>
+        <p>
+          California is a fire-shaped landscape. Chaparral, oak woodland, and Sierra conifer
+          forest all evolved with frequent, mostly low- to moderate-intensity burning — much of it
+          set deliberately by Indigenous communities over millennia to manage fuel and maintain
+          ecosystem structure. A century of aggressive suppression interrupted that rhythm. Fuels
+          accumulated just as the climate warmed and dried and the wildland-urban interface
+          expanded into them.
+        </p>
+        <p>
+          The usual response is a map of where fire has occurred. That map is easy to make and
+          nearly useless for planning, because it treats a burn from the start of the record and
+          a burn from last season as the same fact. The question worth asking is directional:
+          which parts of the state are on a trajectory, and which are not?
+        </p>
+
+        <h2>Why a space-time cube</h2>
+        <div class="callout">
+          <p class="kicker">Method note</p>
+          <p>
+            A conventional hot spot analysis collapses time. It answers "where is fire
+            clustered" and cannot distinguish a place with a long, steady history from one that
+            has caught fire only recently but is accelerating.
+          </p>
+          <p>
+            A <strong>space-time cube</strong> keeps both axes. Fire events are aggregated into
+            bins that are simultaneously spatial and temporal — a grid of columns, each column
+            sliced into time steps. Running hot spot statistics through that structure yields not
+            one answer but a <em>classification of trajectories</em>.
+          </p>
+        </div>
+
+        <p>
+          That classification is what the map's colours encode. The categories that matter most
+          for planning are the ones that separate direction from magnitude:
+        </p>
+        <ul>
+          <li><strong>New</strong> — the most recent time step is a hot spot; earlier ones were not</li>
+          <li><strong>Consecutive / intensifying</strong> — an unbroken recent run of hot spots, with clustering growing stronger over time</li>
+          <li><strong>Persistent</strong> — hot throughout, with no meaningful trend either way</li>
+          <li><strong>Diminishing / historical</strong> — significant clustering in the past that has weakened or lapsed</li>
+        </ul>
+        <p>
+          A "historical" county and an "intensifying" county can have identical total burned area.
+          They call for entirely different responses, and a map that only shows accumulated
+          footprint cannot tell them apart.
+        </p>
+
+        <h2>Reading the layout</h2>
+        <ol class="steps">
+          <li>The <strong>main map</strong> carries the hot spot classification across the state, drawn on a dark basemap so the categorical colours carry the signal rather than competing with terrain.</li>
+          <li>The <strong>county bar chart</strong> summarises hot spot hazard counts per county, turning a continuous surface into something rankable — the northern counties of Siskiyou, Trinity, and Shasta stand out, alongside Monterey, Mendocino, and Riverside.</li>
+          <li>The <strong>3D inset</strong> takes Monterey County and shows the cube itself: columns rising through time, each block coloured by its state in that time step, so a single county's trajectory is legible as a shape.</li>
+        </ol>
+
+        <h2>Cartography on a dark ground</h2>
+        <p>
+          The dark basemap is a functional choice, not a stylistic one. The hot spot output is
+          <em>categorical</em> — the colours mean distinct classes, not positions on a ramp — and
+          categorical schemes need high separation to stay readable. Against a pale terrain
+          basemap the lighter classes wash out and the reader starts inferring an ordering that
+          the data does not support.
+        </p>
+        <p>
+          The grid cells also keep a soft outer glow, which does real work at small sizes: it
+          holds isolated single cells visible against the dark ground instead of letting them
+          disappear, so sparse emerging clusters read as clearly as dense ones.
+        </p>
+
+        <h2>Putting the classification to work</h2>
+        <p>
+          The categories are useful precisely because they can be intersected with something else.
+          Treating intensifying, persistent, and new hot spots together as "high risk" and
+          buffering assets against them turns a descriptive map into an exposure count — which is
+          how this analysis feeds the
+          <a href="wind-farm-siting.html">wind siting project</a>, where it answers how much of
+          California's installed turbine fleet sits within five miles of a fire regime that is
+          active or worsening.
+        </p>
+
+        <h2>What this map does not say</h2>
+        <p>
+          Emerging hot spot categories describe the <strong>statistical behaviour of the record</strong>,
+          not causation. A county classified as intensifying is not thereby explained — the
+          driver could be fuel accumulation, climate, ignition sources, changes in detection and
+          reporting, or a shifting wildland-urban boundary. The analysis narrows where to look.
+          It does not substitute for looking.
+        </p>
+
+      </div>
+
+      <div class="pager">
+        <a href="arctic-sst-sea-ice.html">← Arctic Sea Ice Decline with SST</a>
+        <a href="wind-farm-siting.html">Next: Siting Wind in California →</a>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Sophia Siegel</span>
+    <div class="footer-links">
+      <a href="../index.html#projects">Projects</a>
+      <a href="../about.html">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

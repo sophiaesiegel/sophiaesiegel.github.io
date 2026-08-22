@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Earth Engine Method Studies — Sophia Siegel</title>
+<meta name="description" content="Five Google Earth Engine method studies: classification and accuracy assessment, thermal data, cloud climatology, land cover change, and nighttime lights.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Sophia Siegel <span class="brand-sub">GIS &amp; ocean climate</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="../index.html#projects" aria-current="page">Projects</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-inner compact">
+      <a class="back-link" href="../index.html#projects">All projects</a>
+      <span class="eyebrow">Google Earth Engine</span>
+      <h1>Earth Engine Method Studies</h1>
+      <p class="lede">
+        Five short studies, each pointed at a different remote sensing problem — classifying a
+        coastline, reading a thermal archive, treating cloud as a measurement rather than a
+        nuisance, detecting change two ways, and asking whether a city is really getting brighter.
+      </p>
+      <a class="btn ghost" href="https://github.com/sophiaesiegel/GEE-Method-Studies" target="_blank" rel="noopener">
+        All scripts on GitHub
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+
+      <dl class="meta">
+        <div><dt>Platform</dt><dd>Google Earth Engine (JavaScript)</dd></div>
+        <div><dt>Sensors</dt><dd>Sentinel-2, Landsat 5/8, MODIS, VIIRS</dd></div>
+        <div><dt>Context</dt><dd>EARTHSYS 242, Remote Sensing of Land</dd></div>
+        <div><dt>Code</dt><dd><a href="https://github.com/sophiaesiegel/GEE-Method-Studies" target="_blank" rel="noopener">GEE-Method-Studies</a></dd></div>
+      </dl>
+
+      <div class="prose">
+        <p>
+          These come out of coursework, but each one is a study area I picked and a question I
+          framed. What ties them together is less the subject matter than a habit: the interesting
+          part of a remote sensing result is usually the thing that could make it wrong — a display
+          stretch inherited from a different sensor, a validation set too small to support its own
+          decimal places, a city that swapped out every streetlight in the middle of the study period.
+        </p>
+      </div>
+
+      <!-- ============================ 1 ============================ -->
+      <div class="study">
+        <figure class="study-media">
+          <img src="../assets/img/gee-keys-classification.png"
+               alt="Random Forest land cover classification of south Florida showing developed, herbaceous, water and land classes with training points overlaid"
+               data-slot data-slot-label="Classification">
+          <figcaption>
+            Random Forest output with the hand-drawn training points overlaid. Development follows
+            the road grid, herbaceous cover holds the coastal fringe, agriculture fills the interior.
+          </figcaption>
+        </figure>
+        <div class="study-body">
+          <h3>Classifying a coastline, and checking whether it worked</h3>
+          <p class="where">Florida Keys &amp; Everglades · Sentinel-2</p>
+          <p>
+            A five-year Sentinel-2 median composite over south Florida, classified into developed,
+            herbaceous, water, and land. Cloud is handled in two tiers — a scene-level filter throws
+            out bad acquisitions, then a per-pixel cloud-probability mask removes what survives
+            inside the good ones. Neither alone is enough over a subtropical marine area.
+          </p>
+          <p>
+            The same scene is classified twice: <b>k-means with seven clusters</b>, which knows
+            nothing about the categories, and <b>Random Forest with four trained classes</b>.
+            Asking the unsupervised method for more groups than the scheme has is deliberate — the
+            extra clusters split water by depth, because in clear shallow water the bottom drives
+            reflectance. That is real physical structure the four-class scheme throws away.
+          </p>
+          <p>
+            Validation was an 80/20 split and a confusion matrix: <b>95.8% overall accuracy, kappa
+            0.94</b>. The more useful number is underneath it. Water and developed classified
+            perfectly; the single error was land misread as herbaceous — and land had 12 training
+            points against water's 52. Difficulty concentrated in the vegetated classes and tracked
+            sample size. The headline figure also rests on 24 validation samples drawn from the same
+            polygons as the training data, so it is an upper bound rather than a measurement.
+          </p>
+          <ul class="study-skills">
+            <li>Supervised classification</li><li>k-means</li><li>Random Forest</li>
+            <li>Confusion matrix</li><li>Cloud masking</li><li>Compositing</li>
+          </ul>
+          <a class="study-link" href="https://github.com/sophiaesiegel/GEE-Method-Studies/blob/main/scripts/florida-keys-classification.js" target="_blank" rel="noopener">View the script</a>
+        </div>
+      </div>
+
+      <!-- ============================ 2 ============================ -->
+      <div class="study">
+        <figure class="study-media">
+          <img src="../assets/img/gee-spain-lst.png"
+               alt="MODIS land surface temperature over Spain after adjusting the display stretch, showing cold interior plateau and warm Guadalquivir valley"
+               data-slot data-slot-label="LST, corrected stretch">
+          <img src="../assets/img/gee-spain-buffer.png"
+               alt="Spain with a 100 km offshore buffer intersected with an offshore region of interest"
+               data-slot data-slot-label="Coastal buffer">
+          <figcaption>
+            Top: land surface temperature once the stretch matches the data — the cold Meseta and
+            Pyrenees separate cleanly from the warm Guadalquivir valley. Bottom: a 100 km maritime
+            buffer intersected with an offshore area of interest.
+          </figcaption>
+        </figure>
+        <div class="study-body">
+          <h3>Reading a thermal archive without misreading it</h3>
+          <p class="where">Spain · MODIS LST + Pathfinder SST</p>
+          <p>
+            MODIS land surface temperature paired with sea surface temperature offshore, November
+            2022. Both are stored as <b>scaled integers</b> rather than physical values, which is
+            where this kind of analysis usually goes wrong.
+          </p>
+          <p>
+            The first display range, 13000–16500 raw, works out to <b>−13 °C to +57 °C</b> — a
+            seventy-degree span for Iberia in November, so almost the whole map rendered as one
+            undifferentiated mid-ramp colour. Reading the histogram first gave 13800–15500, or
+            <b>3 °C to 37 °C</b>, which is the actual distribution. Same image, same palette; the
+            only thing that changed was looking at the data before choosing how to show it.
+          </p>
+          <p>
+            The second half is vector work: buffering the coastline 100 km offshore and intersecting
+            it with an area of interest to build a coastal zone and measure it — structurally the
+            same operation as delineating a jurisdictional band for marine spatial planning.
+          </p>
+          <ul class="study-skills">
+            <li>Scaled-integer data</li><li>Histogram-driven stretch</li>
+            <li>Temporal reducers</li><li>Buffers &amp; intersection</li><li>Zonal area</li>
+          </ul>
+          <a class="study-link" href="https://github.com/sophiaesiegel/GEE-Method-Studies/blob/main/scripts/spain-lst-sst.js" target="_blank" rel="noopener">View the script</a>
+        </div>
+      </div>
+
+      <!-- ============================ 3 ============================ -->
+      <div class="study">
+        <figure class="study-media">
+          <img src="../assets/img/gee-cloud-ndvi-diff.png"
+               alt="Difference between cloud-filtered and unfiltered mean NDVI over Anchorage, broadly negative"
+               data-slot data-slot-label="NDVI difference">
+          <figcaption>
+            Cloud-filtered minus unfiltered mean NDVI over Anchorage. The rectangular seams are
+            Landsat scene footprints — a reminder that each pixel rests on a different number of
+            contributing images.
+          </figcaption>
+        </figure>
+        <div class="study-body">
+          <h3>Cloud as the measurement</h3>
+          <p class="where">Anchorage, Phoenix, Los Angeles · Landsat 8</p>
+          <p>
+            Every other study here treats cloud as contamination. This one inverts that: a per-image
+            cloud likelihood score becomes the variable, aggregated into an annual time series for
+            three cities with very different climates.
+          </p>
+          <p>
+            The result is a lesson about the metric more than about the cities. The cloud-scoring
+            algorithm keys on brightness, coolness, and a snow index — so it <b>cannot separate
+            cloud from snow</b>. Anchorage carries snow much of the year and scores high partly for
+            that reason, which flatters the hypothesis it was meant to test. The scoring region also
+            defaults to the full Landsat footprint, roughly 185 km across, so these describe the
+            region containing each city rather than the city.
+          </p>
+          <p>
+            The second half puts a number on what cloud costs you, differencing cloud-filtered
+            against unfiltered mean NDVI. The difference runs broadly negative, which is the
+            opposite of the naive expectation — and the likely reason is a <b>sampling bias, not a
+            radiometric one</b>. In a maritime subarctic climate the clear days are
+            disproportionately cold, snow-covered ones, so filtering for low cloud quietly filters
+            for winter.
+          </p>
+          <ul class="study-skills">
+            <li>simpleCloudScore</li><li>Time series aggregation</li>
+            <li>Image properties</li><li>Sampling bias</li><li>NDVI</li>
+          </ul>
+          <a class="study-link" href="https://github.com/sophiaesiegel/GEE-Method-Studies/blob/main/scripts/cloud-climatology.js" target="_blank" rel="noopener">View the script</a>
+        </div>
+      </div>
+
+      <!-- ============================ 4 ============================ -->
+      <div class="study">
+        <figure class="study-media">
+          <img src="../assets/img/gee-florida-developed-gain.png"
+               alt="NLCD developed classes in red with newly developed areas in cyan across Miami-Dade"
+               data-slot data-slot-label="Developed gain">
+          <img src="../assets/img/gee-florida-ndvi-change.png"
+               alt="NDVI change 2001 to 2019 with vegetation loss in red along the coastal margin"
+               data-slot data-slot-label="NDVI change">
+          <figcaption>
+            Two ways of seeing the same two decades. Top: existing development in red, newly
+            developed land in cyan, expanding along the western fringe. Bottom: continuous NDVI
+            change, with loss concentrated on the coastal margin.
+          </figcaption>
+        </figure>
+        <div class="study-body">
+          <h3>Two ways to detect change</h3>
+          <p class="where">South Miami-Dade &amp; the Lower Keys · NLCD, Landsat 5 &amp; 8</p>
+          <p>
+            The same eighteen years read <b>categorically</b> and <b>continuously</b>. The first
+            groups NLCD classes and finds gains and losses through boolean comparison; the second
+            differences NDVI between a 2001 Landsat 5 composite and a 2019 Landsat 8 one, which
+            catches gradual thinning that never crosses a class boundary.
+          </p>
+          <p>
+            The first run produced a great deal of apparent development <em>loss</em>, which is
+            physically implausible in Miami. The cause was the class grouping: using deciduous
+            forest alone meant an evergreen stand registered as forest loss purely for not being
+            deciduous. Grouping all three forest classes and both agricultural classes removed most
+            of the spurious change. <b>The error was in the categories, not the data.</b>
+          </p>
+          <p>
+            The NDVI half carries its own caveat, which the write-up keeps rather than hides: the
+            quality mask uses Collection 1 bit positions against Collection 2 data, so it removes
+            cloud and snow but lets <b>cloud shadow</b> through — and shadow depresses NDVI, which
+            reads as vegetation loss. Landsat 5 and 8 also have different spectral response
+            functions, so their NDVI values are not strictly comparable without harmonisation.
+          </p>
+          <ul class="study-skills">
+            <li>Change detection</li><li>Class remapping</li><li>Boolean masking</li>
+            <li>QA bitmasks</li><li>Multi-sensor NDVI</li>
+          </ul>
+          <a class="study-link" href="https://github.com/sophiaesiegel/GEE-Method-Studies/blob/main/scripts/south-florida-lulc-change.js" target="_blank" rel="noopener">View the script</a>
+        </div>
+      </div>
+
+      <!-- ============================ 5 ============================ -->
+      <div class="study">
+        <figure class="study-media">
+          <img src="../assets/img/gee-lights-change.png"
+               alt="Nighttime lights change map with increase in purple and decrease in pink, decrease concentrated over the urban grid"
+               data-slot data-slot-label="Change, 2016–2023">
+          <img src="../assets/img/gee-lights-2016.png"
+               alt="VIIRS nighttime lights over Santa Clara County in 2016"
+               data-slot data-slot-label="2016">
+          <img src="../assets/img/gee-lights-2023.png"
+               alt="VIIRS nighttime lights over Santa Clara County in 2023"
+               data-slot data-slot-label="2023">
+          <figcaption>
+            Top: where the signal rose (purple) and fell (pink). The dimming traces the urban street
+            grid; the brightening fills the dark hills. Below: the 2016 and 2023 composites it came from.
+          </figcaption>
+        </figure>
+        <div class="study-body">
+          <h3>Is the city actually getting brighter?</h3>
+          <p class="where">Santa Clara County, CA · VIIRS 2016 vs 2023</p>
+          <p>
+            Annual VIIRS nighttime lights composites for the South Bay, differenced across seven
+            years, with water masked and the change split into gain and loss by area. The arithmetic
+            says <b>83.3% of the area brightened and 16.7% dimmed</b>.
+          </p>
+          <p>
+            That number should not be read as "the South Bay got 83% brighter," for two reasons the
+            map makes visible.
+          </p>
+          <p>
+            <b>San José replaced every streetlight in the city with LED, finishing in early 2023</b> —
+            inside this exact window. The VIIRS Day/Night Band is comparatively insensitive to the
+            blue-rich output of LEDs, while the sodium lamps they replaced emitted strongly where the
+            sensor is most responsive. A converted street therefore reads dimmer even when it is lit
+            as brightly or brighter. Look at where the pink sits: it follows the street grid, exactly
+            where streetlights dominate the signal.
+          </p>
+          <p>
+            And the percentage is a <b>sign test with no magnitude threshold</b> — a dark hillside
+            pixel drifting from 0.04 to 0.05 nW counts the same as downtown moving from 60 to 70. Much
+            of this area is unlit hills where the year-to-year difference is mostly sensor noise. The
+            defensible reading is that lit area expanded in extent, while the lit core dimmed for
+            reasons that are partly about lamps rather than activity.
+          </p>
+          <ul class="study-skills">
+            <li>VIIRS DNB</li><li>Image differencing</li><li>Water masking</li>
+            <li>Area accounting</li><li>Sensor confounds</li>
+          </ul>
+          <a class="study-link" href="https://github.com/sophiaesiegel/GEE-Method-Studies/blob/main/scripts/south-bay-nighttime-lights.js" target="_blank" rel="noopener">View the script</a>
+        </div>
+      </div>
+
+      <div class="pager">
+        <a class="back-link" href="../index.html#projects">All projects</a>
+        <a href="https://github.com/sophiaesiegel/GEE-Method-Studies" target="_blank" rel="noopener">All five scripts on GitHub →</a>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Sophia Siegel</span>
+    <div class="footer-links">
+      <a href="../index.html#projects">Projects</a>
+      <a href="../about.html">About</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
