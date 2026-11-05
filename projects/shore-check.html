@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shore Check: California Shellfish Advisories and Domoic Acid Forecasts — Sophia Siegel</title>
-<meta name="description" content="A live map that puts California's official shellfish advisories next to NOAA C-HARM domoic acid forecasts, with a scheduled checker that logs every change.">
+<title>Shore Check — Sophia Siegel</title>
+<meta name="description" content="A prototype harmful algal bloom early warning system for California shellfish, combining official CDPH advisories with NOAA C-HARM domoic acid forecasts.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -37,130 +37,16 @@
       <span class="eyebrow">Ocean · Harmful algal blooms</span>
       <h1>Shore Check</h1>
       <p class="lede">
-        California posts shellfish advisories after toxins are found in the water. NOAA forecasts
-        domoic acid risk days ahead. Shore Check puts the two on one map, so you can see where an
-        advisory is already in force and where the forecast says trouble may be coming.
+        Shore Check is a prototype early warning system for harmful algal blooms. It puts
+        California's official shellfish advisories from the California Department of Public
+        Health next to NOAA's C-HARM forecasts of domoic acid risk, so you can see where an
+        advisory is already in force and where the forecast says one may be coming. It is a
+        prototype, not a safety tool: always check with CDPH before harvesting shellfish.
       </p>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-
-      <dl class="meta">
-        <div><dt>Role</dt><dd>Design, data pipeline, web app</dd></div>
-        <div><dt>Tools</dt><dd>JavaScript, Leaflet, Python, GitHub Actions</dd></div>
-        <div><dt>Extent</dt><dd>California coast</dd></div>
-        <div><dt>Status</dt><dd>Live prototype</dd></div>
-      </dl>
-
-      <figure class="fig">
-        <img src="../assets/img/shore-check-map.png"
-             alt="Shore Check map of California showing shellfish advisories and C-HARM domoic acid forecast"
-             data-slot data-slot-label="Shore Check map"
-             data-slot-hint="Drop a screenshot of the live app here as assets/img/shore-check-map.png.">
-        <figcaption>
-          <b>Figure 1.</b> The Shore Check map: county advisories from CDPH with the C-HARM
-          domoic acid forecast laid over the coast.
-        </figcaption>
-      </figure>
-
       <p>
-        <a class="btn" href="https://sophiaesiegel.github.io/shore-check/" target="_blank" rel="noopener">Open the live app</a>
-        &nbsp;
-        <a href="https://github.com/sophiaesiegel/shore-check" target="_blank" rel="noopener">Code on GitHub</a>
+        <a class="btn" style="font-size:1.1rem; padding:16px 38px;"
+           href="https://sophiaesiegel.github.io/shore-check/" target="_blank" rel="noopener">Open Shore Check</a>
       </p>
-
-      <div class="prose">
-
-        <h2>The question</h2>
-        <p>
-          Anyone gathering mussels, clams or oysters on the California coast is meant to check the
-          state's shellfish advisories first. Those advisories are official and reliable, but they
-          follow testing: an advisory appears after toxin has been measured in shellfish. A
-          forecast looks the other way, at the ocean conditions that tend to come first.
-          Shore Check asks what you gain by reading the two together.
-        </p>
-
-        <h2>What it shows</h2>
-        <p>
-          Pick a spot and the app reports, species by species, whether a California Department of
-          Public Health advisory covers it, the history of advisories for that area, and a four-day
-          C-HARM outlook for the nearest ocean cell, with the past 14 days of the C-HARM nowcast
-          beside it. The official status and the forecast are kept visibly separate, because they
-          are different kinds of information.
-        </p>
-
-        <div class="callout">
-          <p class="kicker">Read this first</p>
-          <p>
-            Shore Check is a prototype and is never a statement that shellfish are safe. C-HARM is
-            a research forecast, and its licence states it is not intended for legal use. Always
-            confirm with CDPH before harvesting.
-          </p>
-        </div>
-
-        <h2>Data</h2>
-        <p>
-          <strong>Advisories.</strong> The map reads the web map behind CDPH's Recreational
-          Shellfish Advisory Map and works out which areas are under which advisory. CDPH stores
-          this as layer filters rather than as a feed, so this part of the pipeline is the most
-          fragile: if CDPH rebuilds its map, the parser has to change. The checker reports when
-          it can no longer read the map.
-        </p>
-        <p>
-          <strong>Forecast.</strong> C-HARM v3.1, from NOAA CoastWatch ERDDAP, on a 3&nbsp;km grid
-          updated daily. The nowcast and the one-, two- and three-day forecasts give probabilities
-          from 0 to 1 for particulate domoic acid, cellular domoic acid and
-          <em>Pseudo-nitzschia</em>.
-        </p>
-        <p>
-          <strong>Basemap and boundaries.</strong> Esri hillshade and dark gray canvas, with county
-          shapes from CDPH's coastal counties service.
-        </p>
-
-        <h2>The checker</h2>
-        <p>
-          The advisory feed has no history, so I built one. A short Python script runs every three
-          hours on GitHub Actions and does three things:
-        </p>
-        <ul>
-          <li>Compares the advisories in force with the last run and logs each one as issued or lifted.</li>
-          <li>Saves the C-HARM nowcast and forecasts at nine long-running pier sampling sites,
-              Trinidad to Scripps, to a daily record.</li>
-          <li>Raises an alert when an advisory changes, when a pier's nowcast crosses 50%, or when
-              the CDPH map cannot be read.</li>
-        </ul>
-        <p>
-          The record starts on 5 October 2026, so it is short. CDPH does not publish start dates,
-          so advisories already in force on that day are logged as active when the record began.
-        </p>
-
-        <h2>Why it matters for research</h2>
-        <p>
-          The interesting gap is between "no advisory" and "high forecast". In early October 2026,
-          Santa Cruz had no bivalve advisory while C-HARM showed roughly 77% probability just
-          offshore. How often do high C-HARM values come before a CDPH advisory, and by how many
-          days? The daily record is collecting the evidence to answer that, and because the sites
-          are long-running pier sampling stations, the forecast can eventually be checked against
-          measured samples as well.
-        </p>
-
-        <h2>Limits</h2>
-        <p>
-          The record is weeks old, not years, so it cannot yet say anything about forecast skill.
-          C-HARM is a model and its grid is coarse near the shore. The advisory parser depends on a
-          map structure CDPH could change without notice. An official machine-readable feed from
-          CDPH would fix that, and asking for one is the obvious next step.
-        </p>
-
-      </div>
-
-      <div class="pager">
-        <a class="back-link" href="../index.html#projects">All projects</a>
-        <a href="ocean-cdr-suitability.html">Next: Where Could the Ocean Take Up More Carbon? →</a>
-      </div>
-
     </div>
   </section>
 
