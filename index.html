@@ -68,7 +68,7 @@
         <div class="search-row">
           <input class="search" type="search" data-search
                  placeholder="Search projects, methods, or datasets…" aria-label="Search projects">
-          <span class="result-count" data-count>5 projects</span>
+          <span class="result-count" data-count>6 projects</span>
         </div>
         <div class="tag-row" role="group" aria-label="Filter projects by theme">
           <button class="chip" data-filter="all" aria-pressed="true">All</button>
@@ -82,6 +82,26 @@
       </div>
 
       <div class="card-grid" data-project-grid>
+
+        <article class="card" data-tags="ocean,hazards,remote-sensing">
+          <div class="card-thumb">
+            <img src="assets/img/shore-check-thumb.png" alt="Shore Check map of California shellfish advisories and domoic acid forecast"
+                 data-slot data-slot-label="Thumbnail">
+          </div>
+          <div class="card-body">
+            <h3><a href="projects/shore-check.html">Shore Check</a></h3>
+            <p class="card-desc">
+              A live map that puts California's official shellfish advisories next to NOAA
+              C-HARM domoic acid forecasts, backed by a scheduled checker that logs every
+              advisory issued or lifted.
+            </p>
+            <div class="card-tags">
+              <span class="tag">JavaScript</span><span class="tag">Leaflet</span>
+              <span class="tag">C-HARM</span><span class="tag">GitHub Actions</span>
+            </div>
+            <a class="card-cta" href="projects/shore-check.html">Read the project</a>
+          </div>
+        </article>
 
         <article class="card" data-tags="ocean,climate,suitability,remote-sensing">
           <div class="card-thumb">

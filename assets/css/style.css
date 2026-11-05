@@ -462,3 +462,13 @@ form.mailto { max-width: 60ch; }
   max-width: none;
   width: min(1072px, calc(100vw - 48px));
 }
+
+/* ---- Featured project card (yellow border + star badge) ---- */
+.card.featured { border-color: #f2b84b; box-shadow: 0 0 0 1px rgba(242, 184, 75, 0.35), 0 0 24px rgba(242, 184, 75, 0.12); }
+.card.featured:hover { border-color: #f2b84b; box-shadow: 0 0 0 1px rgba(242, 184, 75, 0.5), var(--shadow); }
+.card.featured .card-thumb::after {
+  content: "\2605  Featured";
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #1b1405; background: #f2b84b; padding: 4px 11px; border-radius: 999px; font-weight: 600;
+}
